@@ -1,0 +1,63 @@
+@if (!newFileflag) {
+  <div class="container pt-5">
+    <div class="card">
+        <div class="card-header">
+          <form class="row">
+            <div class="col-10 h5">
+                Archivos
+            </div>
+            <div class="col-2 justify-content-end align-content-end align-items-end">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                      Acciones
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a (click)="newFile()" class="dropdown-item">Nuevo</a></li>
+                      <li><a class="dropdown-item">Borrar</a></li>
+                    </ul>
+                </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="card-body">
+          <form #tableForm="ngForm">
+            <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Dueños</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let file of files">
+                    <th scope="row"><div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"></div>
+                    </th>
+                    @if (file.type === fileType.FOLDER) {
+                      <td><ion-icon name="folder-outline"></ion-icon> {{file.name.slice(0,10)}}</td>
+                    }
+                    @else{
+                      <td><ion-icon name="document-outline"></ion-icon> {{ file.name.slice(0,10)}}</td>
+                    }
+                    <td>{{ file.creation|date:'short'}}</td>
+                    <td>@for (owner of file.owners; track $index) 
+                      {
+                        <img src="{{owner.avatarUrl}}" class="rounded-circle" alt="{{owner.name}}" style="height: 30px;">
+                      }
+                    </td>
+                  </tr>
+                </tbody>
+            </table>
+          </form>
+        </div>
+      </div>
+</div>
+}
+@else {
+  <app-file-item (back)="goFileManager($event)" (save)="addNewFile($event)"></app-file-item>
+}
+
+

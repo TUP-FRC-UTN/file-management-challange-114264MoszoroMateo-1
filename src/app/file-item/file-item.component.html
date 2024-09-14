@@ -1,0 +1,73 @@
+<div class="container pt-5">
+    <div class="p-4 card">
+        <form #form="ngForm" (ngSubmit)="saveNewFile(form)">
+            <div class="mb-3">
+              <label for="name" class="form-label">Nombre</label>
+              <input name="name" id="name" type="text" class="form-control" placeholder="Ingrese el nombre"
+              #name="ngModel" [ngModel]="file.name" required>
+              @if (name.invalid && name.touched) {
+                <span>Ingrese un Nombre</span>
+              }
+            </div>
+            <div class="mb-3">
+                <label for="creation" class="form-label">Fecha</label>
+                <input name="creation" id="creation" type="date" class="form-control"
+                #creation="ngModel" [ngModel]="file.creation" required>
+                @if (creation.invalid && creation.touched) {
+                    <span>Ingrese una fecha</span>
+                  }
+            </div>
+            <div class="mb-3">
+                <label for="type" class="form-label">Tipo Archivo</label>
+                <select name="type" id="type" class="form-select"
+                #type="ngModel" [ngModel]="file.type" required>
+                    <option selected disabled>Choose...</option>
+                    <option value="{{fileType.FOLDER}}">FOLDER</option>
+                    <option value="{{fileType.FILE}}">FILE</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="carpeta" class="form-label">Carpeta</label>
+                <select name="carpeta" id="carpeta"  class="form-select">
+                    <option selected disabled value="">Choose...</option>
+                    
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="selectedOwner" class="form-label">Dueños</label>
+                <div class="row">
+                    <div class="col-11">
+                        <select name="selectedOwner" id="ownerTemplate" class="form-select"
+                        #selectedOwner="ngModel"  [(ngModel)]="selectedOwner">
+                            <option selected disabled>Choose...</option>
+                            @for (owner of owners1; track $index) {
+                                <option [ngValue]="owner">{{owner.name}}</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-1">
+                        <button type="button" class="btn btn-secondary btn-sm" (click)="addOwner()">+</button>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                      <p>Dueños seleccionados:</p>
+                      <ul>
+                        <li *ngFor="let owner of file.owners">{{owner.name}}</li>
+                      </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-10">
+                    <button (click)="goBack()" type="button" class="btn btn-secondary">Volver</button>          
+                </div>
+                <div class="col-1">
+                    <button type="submit" class="btn btn-primary" 
+                        [disabled]="form.invalid">Guardar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
